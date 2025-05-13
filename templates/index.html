@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Bem-vindo à Agenda de Contatos</h1>
+    <p>Gerencie seus contatos de forma simples e eficiente.</p>
+    
+    {% if 'user_id' not in session %}
+        <div class="auth-options">
+            <a href="{{ url_for('login') }}" class="btn">Login</a>
+            <a href="{{ url_for('register') }}" class="btn">Registrar</a>
+        </div>
+    {% else %}
+        <a href="{{ url_for('contacts') }}" class="btn">Ver meus contatos</a>
+    {% endif %}
+{% endblock %}

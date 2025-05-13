@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Meus Contatos{% endblock %}
+
+{% block content %}
+    <h1>Meus Contatos</h1>
+    <a href="{{ url_for('add_contact') }}" class="btn">Adicionar Contato</a>
+    
+    {% if contacts %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>E-mail</th>
+                    <th>Celular</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for contact in contacts %}
+                    <tr>
+                        <td>{{ contact.name }}</td>
+                        <td>{{ contact.email }}</td>
+                        <td>{{ contact.cellphone }}</td>
+                        <td>
+                            <a href="{{ url_for('view_messages', contact_id=contact.id) }}" class="btn">Mensagens</a>
+                            <a href="{{ url_for('send_message', contact_id=contact.id) }}" class="btn">Enviar</a>
+                            <a href="{{ url_for('delete_contact', contact_id=contact.id) }}" 
+                               class="btn btn-danger" 
+                               onclick="return confirm('Tem certeza que deseja excluir este contato?')">
+                                Excluir
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Você ainda não tem contatos cadastrados.</p>
+    {% endif %}
+{% endblock %}

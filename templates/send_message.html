@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Enviar Mensagem{% endblock %}
+
+{% block content %}
+    <h1>Enviar Mensagem para {{ contact.name }}</h1>
+    <form method="POST" action="{{ url_for('send_message', contact_id=contact.id) }}">
+        <div class="form-group">
+            <label for="title">Título</label>
+            <input type="text" id="title" name="title" required>
+        </div>
+        <div class="form-group">
+            <label for="content">Mensagem</label>
+            <textarea id="content" name="content" rows="5" required></textarea>
+        </div>
+        <button type="submit" class="btn">Enviar</button>
+        <a href="{{ url_for('view_messages', contact_id=contact.id) }}" class="btn btn-secondary">Cancelar</a>
+    </form>
+{% endblock %}

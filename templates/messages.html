@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Mensagens com {{ contact.name }}{% endblock %}
+
+{% block content %}
+    <h1>Mensagens com {{ contact.name }}</h1>
+
+    <div class="contact-header">
+        {% if contact.photo %}
+            <img src="{{ url_for('static', filename='uploads/' + contact.photo) }}" alt="{{ contact.name }}" class="contact-photo">
+        {% else %}
+            <div class="contact-photo placeholder">{{ contact.name[0]|upper }}</div>
+        {% endif %}
+        <div class="contact-info">
+            <h4><i class="fas fa-envelope"></i> {{ contact.email }}</h4>
+            <h4><i class="fas fa-mobile-alt"></i> {{ contact.cellphone }}</h4>
+        </div>
+    </div>
+
+    <a href="{{ url_for('send_message', contact_id=contact.id) }}" class="btn">Nova Mensagem</a>
+    <a href="{{ url_for('contacts') }}" class="btn btn-secondary">Voltar</a>
+    
+    <div class="messages-container">
+        {% for message in messages %}
+            <div class="message {% if message.sender_id == session['user_id'] %}sent{% else %}received{% endif %}">
+                <div class="message-header">
+                    <strong>{% if message.sender_id == session['user_id'] %}Você{% else %}{{ contact.name }}{% endif %}</strong>
+                    <span>{{ message.date_sent.strftime('%d/%m/%Y %H:%M') }}</span>
+                </div>
+                <h4>{{ message.title }}</h4>
+                <p>{{ message.content }}</p>
+            </div>
+        {% else %}
+            <p>Nenhuma mensagem trocada com este contato.</p>
+        {% endfor %}
+    </div>
+{% endblock %}
